@@ -18,7 +18,12 @@ __pycache__/
 *.rar
 
 # ================================
-# Ignore all .pth files in root,
+# Ignore all .pth inside checkpoint/
+# ================================
+checkpoint/*.pth
+
+# ================================
+# Ignore all .pth in root,
 # except finetuned_final_drop_0.6.pth
 # ================================
 *.pth
