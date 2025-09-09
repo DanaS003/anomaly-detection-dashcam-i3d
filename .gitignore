@@ -17,6 +17,13 @@ __pycache__/
 *.tar.gz
 *.rar
 
+# ================================
+# Ignore all .pth files in root,
+# except finetuned_final_drop_0.6.pth
+# ================================
+*.pth
+!finetuned_final_drop_0.6.pth
+
 # Keep important files
 !*.py
 !*.ipynb
