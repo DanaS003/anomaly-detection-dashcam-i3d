@@ -1,0 +1,24 @@
+# Ignore VIS folder completely
+VIS/
+
+# Ignore numpy arrays
+*.npy
+
+# Ignore python cache & notebook checkpoints
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.ipynb_checkpoints
+
+# Ignore archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+# Keep important files
+!*.py
+!*.ipynb
+!requirements.txt
+!README.md
