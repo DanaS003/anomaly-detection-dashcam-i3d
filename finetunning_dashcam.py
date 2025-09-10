@@ -1,30 +1,3 @@
-#!/usr/bin/env python3
-"""
-finetunning_dashcam_fixed.py
-
-CPU-only fine-tuning script for DashCam anomaly dataset.
-
-Assumptions:
-- Each .npy feature file contains per-segment features with shape (n_segments, feat_dim).
-  Typical case: (32, feat_dim).
-- Train/test .txt formats:
-  - train_normal.txt / train_anomaly.txt: one path per line (relative basename, e.g. Video001 or Folder/Video001.mp4)
-  - test_normalv2.txt: "<path> <n_frames> -1"
-  - test_anomalyv2.txt: "<path>|<n_frames>|[s, e]"   (can be multiple ranges separated by comma)
-- Directory layout (example):
-  DashCam/
-    all_rgbs/
-      ANOMALY/
-      NORMAL/
-    all_flows/
-      ANOMALY/
-      NORMAL/
-    train_normal.txt
-    train_anomaly.txt
-    test_normalv2.txt
-    test_anomalyv2.txt
-"""
-
 import os
 import random
 import argparse
@@ -42,29 +15,16 @@ from collections import Counter
 # Utility functions
 # ---------------------------
 def ensure_npy_name(name: str) -> str:
-    """
-    Return a filename ending with '.npy' matching typical filenames on disk.
-    If the .txt contains 'Folder/Video.mp4' or 'Video.mp4', convert to 'Video.npy'.
-    If .txt already gives 'Video.npy' or 'Video.mp4.npy', handle gracefully.
-    IMPORTANT: adjust if your disk actually contains 'video.mp4.npy' style names.
-    """
     base = os.path.basename(name)
-    # remove possible trailing '.mp4.npy' -> convert to '.npy'
     if base.endswith('.mp4.npy'):
-        return base  # keep as is if files indeed have .mp4.npy
-    # if endswith .npy, return
+        return base
     if base.endswith('.npy'):
         return base
-    # if endswith .mp4, replace with .npy
     if base.endswith('.mp4'):
         return base[:-4] + '.npy'
-    # else assume it's a basename (no extension) -> append .npy
     return base + '.npy'
 
 def clean_name_prefix(name: str) -> str:
-    """
-    Remove common prefix folders used in some txt files, like 'Normal/', 'ANOMALY/', etc.
-    """
     return name.replace('Normal/', '').replace('NORMAL/', '').replace('Anomaly/', '').replace('ANOMALY/', '')
 
 # ---------------------------
